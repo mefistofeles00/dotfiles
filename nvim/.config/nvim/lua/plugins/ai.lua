@@ -1,5 +1,5 @@
--- AI katmanı: CodeCompanion (sohbet/düzenleme) + minuet (satır içi tamamlama)
--- Varsayılan sağlayıcı LM Studio; Claude Code ACP üzerinden eklenir.
+-- AI layer: CodeCompanion (chat/edits) + minuet (inline completion)
+-- Default provider is LM Studio; Claude Code is added over ACP.
 local llm = require("config.llm")
 
 return {
@@ -10,10 +10,10 @@ return {
     dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
     cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions", "CodeCompanionCmd" },
     keys = {
-      { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "Sohbet (LM Studio)" },
-      { "<leader>ai", ":CodeCompanion ", mode = { "n", "v" }, desc = "Satır içi istek" },
-      { "<leader>ap", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "Eylemler" },
-      { "<leader>ad", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Seçimi sohbete ekle" },
+      { "<leader>aa", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "Chat (LM Studio)" },
+      { "<leader>ai", ":CodeCompanion ", mode = { "n", "v" }, desc = "Inline prompt" },
+      { "<leader>ap", "<cmd>CodeCompanionActions<cr>", mode = { "n", "v" }, desc = "Actions" },
+      { "<leader>ad", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Add selection to chat" },
     },
     opts = {
       adapters = {
@@ -33,7 +33,7 @@ return {
           end,
         },
         acp = {
-          -- Claude Code girişini kullanır, API anahtarı gerekmez (npx @zed-industries/claude-code-acp)
+          -- Uses the Claude Code login, no API key needed (npx @zed-industries/claude-code-acp)
           claude_code = function()
             return require("codecompanion.adapters").extend("claude_code", {})
           end,
@@ -53,7 +53,7 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     event = "VeryLazy",
     keys = {
-      { "<leader>am", "<cmd>Minuet virtualtext toggle<cr>", desc = "Satır içi tamamlama aç/kapat" },
+      { "<leader>am", "<cmd>Minuet virtualtext toggle<cr>", desc = "Toggle inline completion" },
     },
     opts = {
       provider = "openai_compatible",
@@ -65,7 +65,7 @@ return {
       notify = "error",
       virtualtext = {
         auto_trigger_ft = { "*" },
-        -- Alt-l / Alt-[ / Alt-] zellij'in odak tuşları, onlarla çakışmasın
+        -- Alt-l / Alt-[ / Alt-] are zellij's focus keys; avoid clashing with them
         keymap = {
           accept = "<A-a>",
           accept_line = "<A-s>",
@@ -82,8 +82,8 @@ return {
           model = llm.completion_model,
           name = "LM Studio",
           stream = true,
-          -- reasoning_effort = "none": LM Studio'da modelin "düşünme" modunu kapatır,
-          -- yoksa 128 token bütçesi sırf düşünmeye gider ve öneri boş gelir.
+          -- reasoning_effort = "none" turns off the model's thinking mode in LM Studio;
+          -- otherwise the 128-token budget is spent on thinking and the suggestion comes back empty.
           optional = { max_tokens = 128, top_p = 0.9, reasoning_effort = "none" },
         },
       },

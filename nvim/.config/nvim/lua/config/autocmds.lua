@@ -1,1 +1,1 @@
--- Ek autocmd'ler. LazyVim'inkiler: https://www.lazyvim.org/configuration/general
+-- Extra autocmds. LazyVim's own: https://www.lazyvim.org/configuration/general

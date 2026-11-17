@@ -15,39 +15,38 @@ alias tree='eza --tree --icons'
 alias cat='bat --paging=never --style=plain'
 # <<< terminal-setup <<<
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/inanc/.lmstudio/bin"
-# End of LM Studio CLI section
+# LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
 
 # >>> projects >>>
-# p: ~/Projects ve ~/lab/repos altındaki git projelerinden birini fzf ile seçip oraya geç
+# p: pick a git project under ~/Projects or ~/lab/repos with fzf and cd into it
 p() {
   local d
   d=$(find ~/Projects ~/lab/repos -mindepth 2 -maxdepth 5 -name .git -type d -prune 2>/dev/null \
       | sed -e 's|/\.git$||' -e "s|^$HOME/||" | sort | fzf --height 40% --reverse --query "${1:-}") && cd ~/"$d"
 }
-# gclone sahip/repo: GitHub reposunu ~/Projects/oss/sahip/repo altına klonla
+# gclone owner/repo: clone a GitHub repo into ~/Projects/oss/owner/repo
 gclone() {
-  [ -z "$1" ] && { echo "Kullanım: gclone sahip/repo"; return 1; }
+  [ -z "$1" ] && { echo "Usage: gclone owner/repo"; return 1; }
   local dest=~/Projects/oss/"$1"
   [ -d "$dest" ] || gh repo clone "$1" "$dest" || return
   cd "$dest"
 }
-# newproj isim [personal|work|playground]: yeni proje klasörü + git init
+# newproj name [personal|work|playground]: new project folder + git init
 newproj() {
-  [ -z "$1" ] && { echo "Kullanım: newproj isim [personal|work|playground]"; return 1; }
+  [ -z "$1" ] && { echo "Usage: newproj name [personal|work|playground]"; return 1; }
   local dest=~/Projects/"${2:-personal}"/"$1"
-  [ -e "$dest" ] && { echo "Zaten var: $dest"; return 1; }
-  mkdir -p "$dest" && cd "$dest" && git init -q && echo "# $1" > README.md && echo "Oluşturuldu: $dest"
+  [ -e "$dest" ] && { echo "Already exists: $dest"; return 1; }
+  mkdir -p "$dest" && cd "$dest" && git init -q && echo "# $1" > README.md && echo "Created: $dest"
 }
-# labnew isim: güvenlik çalışması için engagement + repos + reports klasörleri
+# labnew name: engagement + repos + reports folders for a security assessment
 labnew() {
-  [ -z "$1" ] && { echo "Kullanım: labnew isim"; return 1; }
+  [ -z "$1" ] && { echo "Usage: labnew name"; return 1; }
   local e=~/lab/engagements/"$1"
-  [ -e "$e" ] && { echo "Zaten var: $e"; return 1; }
+  [ -e "$e" ] && { echo "Already exists: $e"; return 1; }
   mkdir -p "$e" ~/lab/repos/"$1" ~/lab/reports/"$1"
   sed -e "s/ornek-proje/$1/g" ~/lab/engagements/_template/engagement.yaml > "$e/engagement.yaml"
-  echo "Oluşturuldu. Önce yetki ve kapsamı doldur: $e/engagement.yaml"
+  echo "Created. Fill in authorization and scope first: $e/engagement.yaml"
 }
 # <<< projects <<<
 
@@ -58,7 +57,7 @@ alias vi=nvim
 # <<< nvim-setup <<<
 
 # >>> workspace >>>
-# y: yazi ile gez, çıkınca seçili klasörde kal
+# y: browse with yazi and stay in the selected folder on exit
 y() {
   local tmp cwd
   tmp="$(mktemp -t yazi-cwd.XXXXXX)"
@@ -68,7 +67,7 @@ y() {
   fi
   rm -f -- "$tmp"
 }
-# zj [isim]: bulunduğun klasör adıyla zellij oturumu aç ya da varsa bağlan (dev layout)
+# zj [name]: open a zellij session named after the current folder, or attach if it exists (dev layout)
 zj() {
   zellij attach --create "${1:-${PWD:t}}"
 }

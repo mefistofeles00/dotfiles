@@ -1,2 +1,2 @@
--- lazy.nvim'i yükler; her şey lua/config ve lua/plugins altında
+-- Loads lazy.nvim; everything else lives under lua/config and lua/plugins
 require("config.lazy")

@@ -1,4 +1,4 @@
-# yazi: terminal dosya gezgini
+# yazi: terminal file manager
 [mgr]
 show_hidden = true
 sort_by = "natural"

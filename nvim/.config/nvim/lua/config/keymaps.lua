@@ -1,5 +1,5 @@
--- LazyVim tuşları: https://www.lazyvim.org/keymaps
--- Buradakiler ek. AI tuşları lua/plugins/ai.lua içinde.
+-- LazyVim keymaps: https://www.lazyvim.org/keymaps
+-- These are additions. AI keys live in lua/plugins/ai.lua.
 local map = vim.keymap.set
 
 map("n", "<leader>ac", function()

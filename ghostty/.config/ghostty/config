@@ -12,5 +12,5 @@ mouse-hide-while-typing = true
 copy-on-select = clipboard
 shell-integration-features = cursor,sudo,title
 keybind = global:cmd+grave_accent=toggle_quick_terminal
-# Option tuşunu Alt olarak gönder (nvim/zellij Alt kısayolları için)
+# Send Option as Alt (for nvim/zellij Alt shortcuts)
 macos-option-as-alt = true

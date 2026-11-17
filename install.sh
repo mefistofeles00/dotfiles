@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# dotfiles kurulumu: brew paketleri + stow bağlantıları
+# dotfiles install: brew packages + stow links
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -8,21 +8,22 @@ BREW=(stow starship zoxide fzf eza bat zsh-autosuggestions zsh-syntax-highlighti
       neovim ripgrep fd lazygit tree-sitter-cli zellij yazi)
 CASKS=(ghostty font-jetbrains-mono-nerd-font)
 
-command -v brew >/dev/null || { echo "Homebrew yok: https://brew.sh"; exit 1; }
-echo "==> brew paketleri"
+command -v brew >/dev/null || { echo "Homebrew not found: https://brew.sh"; exit 1; }
+echo "==> brew packages"
 brew install "${BREW[@]}"
 brew install --cask "${CASKS[@]}" || true
 
-# mevcut dosyalar stow'u engellemesin: yedekle
+# back up existing files so they don't block stow
 for f in ~/.zshrc ~/.config/starship.toml ~/.config/ghostty/config; do
-  [ -e "$f" ] && [ ! -L "$f" ] && mv "$f" "$f.bak-$(date +%Y%m%d%H%M)" && echo "yedeklendi: $f"
+  [ -e "$f" ] && [ ! -L "$f" ] && mv "$f" "$f.bak-$(date +%Y%m%d%H%M)" && echo "backed up: $f"
 done
 
 echo "==> stow"
 for p in "${PACKAGES[@]}"; do
   stow --restow --target="$HOME" --verbose=1 "$p"
 done
-echo "==> yazi tema/eklentileri"
+
+echo "==> yazi flavors/plugins"
 ya pkg install || true
 
-echo "Tamam. Yeni bir kabuk aç; nvim'i açınca eklentiler kendiliğinden kurulur."
+echo "Done. Open a new shell; nvim installs its plugins on first launch."

@@ -1,55 +1,55 @@
 # dotfiles
 
-Terminal odaklı, açık kaynak geliştirme ortamı. Her araç kendi paketinde durur ve
-[GNU stow](https://www.gnu.org/software/stow/) ile `~` altına bağlanır. Tema her yerde
-Catppuccin Mocha, yazı tipi JetBrainsMono Nerd Font.
+A terminal-centric, open-source development environment. Each tool lives in its own
+package and is linked into `~` with [GNU stow](https://www.gnu.org/software/stow/).
+Theme is Catppuccin Mocha everywhere, font is JetBrainsMono Nerd Font.
 
-| Paket | Nereye bağlanır | Ne |
+| Package | Linked to | What |
 |---|---|---|
-| `zsh/` | `~/.zshrc` | kabuk: fzf, zoxide, eza, bat, proje ve iş alanı fonksiyonları |
+| `zsh/` | `~/.zshrc` | shell: fzf, zoxide, eza, bat, project and workspace helpers |
 | `starship/` | `~/.config/starship.toml` | prompt |
 | `ghostty/` | `~/.config/ghostty/config` | terminal |
-| `nvim/` | `~/.config/nvim` | editör: LazyVim + yerel LLM (LM Studio) + Claude Code |
-| `zellij/` | `~/.config/zellij` | panel / sekme / kalıcı oturum, `dev` layout |
-| `yazi/` | `~/.config/yazi` | dosya gezgini |
+| `nvim/` | `~/.config/nvim` | editor: LazyVim + local LLM (LM Studio) + Claude Code |
+| `zellij/` | `~/.config/zellij` | panes / tabs / persistent sessions, `dev` layout |
+| `yazi/` | `~/.config/yazi` | file manager |
 
-`~/.zprofile` repoda değil: makineye özel yollar (Java, Postgres, Ghidra, lab) orada kalır.
+`~/.zprofile` is not in the repo: machine-specific paths (Java, Postgres, Ghidra, lab) stay there.
 
-## Kurulum
+## Install
 
 ```bash
-git clone <bu-repo> ~/Projects/personal/dotfiles
+git clone https://github.com/mefistofeles00/dotfiles ~/Projects/personal/dotfiles
 cd ~/Projects/personal/dotfiles
 ./install.sh
 ```
 
-`install.sh` Homebrew paketlerini kurar, çakışan mevcut dosyaları `.bak-*` olarak kenara
-alır, `stow` ile bağlantıları oluşturur ve yazi temasını indirir.
+`install.sh` installs the Homebrew packages, moves conflicting existing files aside as
+`.bak-*`, creates the stow links and fetches the yazi flavor.
 
-## Günlük akış
+## Daily flow
 
 ```
-cd proje && zj        # klasör adıyla zellij oturumu: code (nvim) | shell | git (lazygit)
+cd project && zj      # zellij session named after the folder: code (nvim) | shell | git (lazygit)
 ```
 
-- `p` projeler arasında seç (fzf), `y` yazi ile gez ve çıkınca o klasörde kal, `lg` lazygit.
-- zellij: `Ctrl+p` panel, `Ctrl+t` sekme, `Alt+h/j/k/l` odak, `Ctrl+g` kilit (tuşları nvim'e bırak),
-  `Ctrl+o d` oturumdan ayrıl, `zj` ile geri dön.
+- `p` pick a project with fzf, `y` browse with yazi and stay in the chosen folder on exit, `lg` lazygit.
+- zellij: `Ctrl+p` pane, `Ctrl+t` tab, `Alt+h/j/k/l` focus, `Ctrl+g` lock (pass keys through to nvim),
+  `Ctrl+o d` detach, `zj` to come back.
 
 ## Neovim
 
-- Tabanı [LazyVim](https://www.lazyvim.org). Ek paketler `lua/plugins/`, ayarlar `lua/config/`.
-- `lua/config/llm.lua`: LM Studio adresi ve model adları tek yerden değişir.
-- `<leader>a` grubu AI içindir (`<space>a` yazınca which-key listeler):
-  - `<leader>aa` sohbet (CodeCompanion, LM Studio)
-  - `<leader>ai` satır içi düzenleme, `<leader>ap` eylem paleti, `<leader>ad` seçimi sohbete ekle
-  - `<leader>ac` Claude Code'u sağda terminal olarak aç/kapat
-  - `<leader>am` satır içi tamamlamayı (minuet) aç/kapat
-- Satır içi öneri: `Alt-a` kabul, `Alt-s` sadece satır, `Alt-, / Alt-.` önceki/sonraki, `Alt-e` kapat.
-- LM Studio sunucusu açık olmalı: `lms server start` (port `llm.lua` içinde).
-- Modeller varsayılan olarak "düşünür"; tamamlama isteklerinde `reasoning_effort = "none"` gönderilir.
+- Based on [LazyVim](https://www.lazyvim.org). Extra plugins in `lua/plugins/`, settings in `lua/config/`.
+- `lua/config/llm.lua`: LM Studio URL and model names, changed in one place.
+- The `<leader>a` group is for AI (type `<space>a` and which-key lists it):
+  - `<leader>aa` chat (CodeCompanion, LM Studio)
+  - `<leader>ai` inline edit, `<leader>ap` action palette, `<leader>ad` add selection to chat
+  - `<leader>ac` toggle Claude Code as a terminal on the right
+  - `<leader>am` toggle inline completion (minuet)
+- Inline suggestions: `Alt-a` accept, `Alt-s` accept line, `Alt-, / Alt-.` previous/next, `Alt-e` dismiss.
+- The LM Studio server must be running: `lms server start` (port is set in `llm.lua`).
+- Models think by default; completion requests send `reasoning_effort = "none"` to turn it off.
 
-## Geliştirme
+## Extending
 
-Yeni bir araç eklemek için `araç/.config/araç/...` yapısında paket aç, `install.sh`
-içindeki `PACKAGES` ve `BREW` listelerine ekle.
+To add a tool, create a package laid out as `tool/.config/tool/...` and add it to the
+`PACKAGES` and `BREW` lists in `install.sh`.

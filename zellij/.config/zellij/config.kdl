@@ -1,5 +1,5 @@
-// zellij: terminal iş alanı (panel + sekme + kalıcı oturum)
-// Tuşlar varsayılan: Ctrl+p panel, Ctrl+t sekme, Ctrl+n boyut, Ctrl+g kilit, Alt+h/j/k/l odak
+// zellij: terminal workspace (panes + tabs + persistent sessions)
+// Default keys: Ctrl+p pane, Ctrl+t tab, Ctrl+n resize, Ctrl+g lock, Alt+h/j/k/l focus
 theme "catppuccin-mocha"
 default_layout "dev"
 default_shell "zsh"
