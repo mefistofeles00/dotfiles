@@ -3,7 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-PACKAGES=(zsh starship ghostty nvim zellij yazi)
+PACKAGES=(zsh starship ghostty nvim zellij yazi lazygit)
 BREW=(stow starship zoxide fzf eza bat zsh-autosuggestions zsh-syntax-highlighting
       neovim ripgrep fd lazygit tree-sitter-cli zellij yazi)
 CASKS=(ghostty font-jetbrains-mono-nerd-font)
@@ -13,9 +13,11 @@ echo "==> brew packages"
 brew install "${BREW[@]}"
 brew install --cask "${CASKS[@]}" || true
 
-# back up existing files so they don't block stow
+# back up existing files so they don't block stow (skip anything already inside this repo)
 for f in ~/.zshrc ~/.config/starship.toml ~/.config/ghostty/config; do
-  [ -e "$f" ] && [ ! -L "$f" ] && mv "$f" "$f.bak-$(date +%Y%m%d%H%M)" && echo "backed up: $f"
+  [ -e "$f" ] || continue
+  case "$(realpath "$f")" in "$PWD"/*) continue ;; esac
+  mv "$f" "$f.bak-$(date +%Y%m%d%H%M)" && echo "backed up: $f"
 done
 
 echo "==> stow"

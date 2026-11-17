@@ -12,6 +12,7 @@ Theme is Catppuccin Mocha everywhere, font is JetBrainsMono Nerd Font.
 | `nvim/` | `~/.config/nvim` | editor: LazyVim + local LLM (LM Studio) + Claude Code |
 | `zellij/` | `~/.config/zellij` | panes / tabs / persistent sessions, `dev` layout |
 | `yazi/` | `~/.config/yazi` | file manager |
+| `lazygit/` | `~/.config/lazygit` | git TUI |
 
 `~/.zprofile` is not in the repo: machine-specific paths (Java, Postgres, Ghidra, lab) stay there.
 
