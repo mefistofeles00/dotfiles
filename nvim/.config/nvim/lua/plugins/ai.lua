@@ -65,12 +65,13 @@ return {
       notify = "error",
       virtualtext = {
         auto_trigger_ft = { "*" },
+        -- Alt-l / Alt-[ / Alt-] zellij'in odak tuşları, onlarla çakışmasın
         keymap = {
           accept = "<A-a>",
-          accept_line = "<A-l>",
+          accept_line = "<A-s>",
           accept_n_lines = "<A-z>",
-          prev = "<A-[>",
-          next = "<A-]>",
+          prev = "<A-,>",
+          next = "<A-.>",
           dismiss = "<A-e>",
         },
       },

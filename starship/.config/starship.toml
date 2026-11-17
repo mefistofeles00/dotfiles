@@ -1,0 +1,6 @@
+add_newline = false
+[character]
+success_symbol = "[❯](bold purple)"
+error_symbol = "[❯](bold red)"
+[directory]
+truncation_length = 3

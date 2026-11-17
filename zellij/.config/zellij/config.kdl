@@ -1,0 +1,12 @@
+// zellij: terminal iş alanı (panel + sekme + kalıcı oturum)
+// Tuşlar varsayılan: Ctrl+p panel, Ctrl+t sekme, Ctrl+n boyut, Ctrl+g kilit, Alt+h/j/k/l odak
+theme "catppuccin-mocha"
+default_layout "dev"
+default_shell "zsh"
+pane_frames false
+mouse_mode true
+copy_on_select true
+scrollback_editor "nvim"
+session_serialization true
+show_startup_tips false
+show_release_notes false

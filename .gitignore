@@ -1,1 +1,4 @@
 .DS_Store
+# yazi: ya pkg install ile gelir
+yazi/.config/yazi/flavors/
+yazi/.config/yazi/plugins/
